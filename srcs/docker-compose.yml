@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    nginx:
+        build: requirements/nginx/
+        # depends_on:
+        #   - wordpress
+        image: nginx
+        container_name: nginx
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - "/home/idouidi/data/website:/etc/nginx/sites-available/"
+        # restart: always
+        tty: true
+
+    # wordpress:
+    #     build: requirements/wordpress/
+    #     image: wordpress
+    #     container_name: wordpress
+    #     env_file:
+    #       - "./.env"
+    #     volumes:
+    #       - "/home/idouidi/data/website:/var/www/html"
+    #     restart: always
+
+    # mariadb:
+    #     build: requirements/mariadb/
+    #     image: mariadb
+    #     container_name: mariadb
+    #     env_file:
+    #       - "./.env"
+    #     ports:
+    #       - "3306:3306"
+    #     volumes:
+    #       - "/home/idouidi/data/db:/var/lib/mysql"
+    #     restart: always
