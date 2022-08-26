@@ -6,7 +6,7 @@
 #    By: idouidi <idouidi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/15 13:43:24 by idouidi           #+#    #+#              #
-#    Updated: 2022/08/25 15:31:56 by idouidi          ###   ########.fr        #
+#    Updated: 2022/08/26 17:42:07 by idouidi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ all: up
 
 up:
 		 sudo docker-compose -f srcs/docker-compose.yml build 
-		 sudo docker-compose -f srcs/docker-compose.yml up -d --force-recreate
+		 sudo docker-compose -f srcs/docker-compose.yml up --force-recreate #-d --force-recreate
 
 
 down:

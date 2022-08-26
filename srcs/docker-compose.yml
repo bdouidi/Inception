@@ -3,15 +3,18 @@ version: '3'
 services:
     nginx:
         build: requirements/nginx/
+        container_name: nginx
+        image: nginx
         # depends_on:
         #   - wordpress
-        image: nginx
-        container_name: nginx
         ports:
           - "80:80"
           - "443:443"
         volumes:
           - "/home/idouidi/data/website:/etc/nginx/sites-available/"
+        # networks:
+        #   - inception
+        # restart: unless-stopped
         # restart: always
         tty: true
 
