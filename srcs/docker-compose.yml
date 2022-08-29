@@ -1,33 +1,9 @@
 version: '3'
 
 services:
-    nginx:
-        build: requirements/nginx/
-        container_name: nginx
-        image: nginx
-        # depends_on:
-        #   - wordpress
-        ports:
-          - "80:80"
-          - "443:443"
-        volumes:
-          - "/home/idouidi/data/website:/etc/nginx/sites-available/"
-        # networks:
-        #   - inception
-        # restart: unless-stopped
-        # restart: always
-        tty: true
-
-    # wordpress:
-    #     build: requirements/wordpress/
-    #     image: wordpress
-    #     container_name: wordpress
-    #     env_file:
-    #       - "./.env"
-    #     volumes:
-    #       - "/home/idouidi/data/website:/var/www/html"
-    #     restart: always
-
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     MARIADB                         #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # mariadb:
     #     build: requirements/mariadb/
     #     image: mariadb
@@ -39,3 +15,37 @@ services:
     #     volumes:
     #       - "/home/idouidi/data/db:/var/lib/mysql"
     #     restart: always
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     WORDPRESS                       #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    wordpress:
+        # depends_on:
+        #   - mariadb
+        build: requirements/wordpress/
+        container_name: wordpress
+        image: wordpress
+        env_file:
+          - "./.env"
+        ports:
+          - "9000:9000"
+        volumes:
+          - "/home/idouidi/data/website:/var/www/"
+        tty: true
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     NGNINX                          #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    nginx:
+        depends_on:
+          - wordpress
+        build: requirements/nginx/
+        container_name: nginx
+        image: nginx
+        ports:
+          - "443:443"
+        volumes:
+          - "/home/idouidi/data/website:/etc/nginx/sites-available/"
+        # networks:
+        #   - inception
+        tty: true
+
+
