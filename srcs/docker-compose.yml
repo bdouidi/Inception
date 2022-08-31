@@ -1,5 +1,9 @@
 version: '3'
 
+
+networks:
+  inception:
+    driver: bridge
 services:
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     MARIADB                         #
@@ -30,6 +34,8 @@ services:
           - "9000:9000"
         volumes:
           - website:/var/www/html
+        networks:
+          - inception
         tty: true
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     NGNINX                          #
@@ -41,12 +47,11 @@ services:
         container_name: nginx
         image: nginx
         ports:
-          - "80:80"
           - "443:443"
         volumes:
           - website:/var/www/html
-        # networks:
-        #   - inception
+        networks:
+          - inception
         tty: true
 
 volumes:
