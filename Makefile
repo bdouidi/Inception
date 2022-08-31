@@ -6,7 +6,7 @@
 #    By: idouidi <idouidi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/15 13:43:24 by idouidi           #+#    #+#              #
-#    Updated: 2022/08/27 12:29:51 by idouidi          ###   ########.fr        #
+#    Updated: 2022/08/31 17:40:09 by idouidi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ ps:
 		sudo docker ps -a
 
 clean:	down
-		# sudo rm -rf /home/${USER}/data/db
-		# mkdir -p /home/${USER}/data/db
+		sudo rm -rf /home/${USER}/data/db
+		mkdir -p /home/${USER}/data/db
 		sudo rm -rf /home/${USER}/data/wwebsite
 		mkdir -p /home/${USER}/data/website
 

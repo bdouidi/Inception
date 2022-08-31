@@ -29,7 +29,7 @@ services:
         ports:
           - "9000:9000"
         volumes:
-          - "/home/idouidi/data/website:/var/www/"
+          - website:/var/www/html
         tty: true
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     NGNINX                          #
@@ -41,11 +41,25 @@ services:
         container_name: nginx
         image: nginx
         ports:
+          - "80:80"
           - "443:443"
         volumes:
-          - "/home/idouidi/data/website:/etc/nginx/sites-available/"
+          - website:/var/www/html
         # networks:
         #   - inception
         tty: true
 
-
+volumes:
+  website:
+    driver: local
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/idouidi/data/website'
+  db:
+    driver: local
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/idouidi/data/db'
+  

@@ -13,19 +13,26 @@ RUN     apt-get -y update && apt-get -y upgrade \
         php-mbstring \
         wget
 
+
+# RUN    mv wordpress /var/www/
+
+WORKDIR /var/www/html/
+
 RUN     wget https://fr.wordpress.org/latest-fr_FR.tar.gz
 RUN     tar -zxf latest-fr_FR.tar.gz
 RUN     rm latest-fr_FR.tar.gz
-
-RUN    cp -r wordpress  /var/www/
-
-# RUN     rm var/www/html/index.nginx-debian.html && rm /var/www/html/wordpress/wp-config-sample.php
-
+RUN     pwd && ls wordpress
 RUN     chown -R www-data:www-data /var/www/*
 RUN     chmod -R 755 /var/www/*
 
-ADD     ./config/wp-config.php ./var/www/html/wordpress/wp-config.php
-ADD     ./config/info.php /usr/share/nginx/html/info.php
+
+# RUN     rm /var/www/wp-config-sample.php
+# COPY    ./config/wp-config.php /var/www/wp-config.php
+
+
+COPY    ./config/info.php /usr/share/nginx/html/info.php
+COPY    ./config/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+COPY    ./config/www.conf    /etc/php/7.3/fpm/pool.d/www.conf
 
 CMD    exec php-fpm7.3 -F
 
