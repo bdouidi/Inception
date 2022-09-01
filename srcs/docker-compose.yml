@@ -2,57 +2,8 @@ version: '3'
 
 
 networks:
-  inception:
+  Inception:
     driver: bridge
-services:
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#                     MARIADB                         #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # mariadb:
-    #     build: requirements/mariadb/
-    #     image: mariadb
-    #     container_name: mariadb
-    #     env_file:
-    #       - "./.env"
-    #     ports:
-    #       - "3306:3306"
-    #     volumes:
-    #       - "/home/idouidi/data/db:/var/lib/mysql"
-    #     restart: always
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#                     WORDPRESS                       #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    wordpress:
-        # depends_on:
-        #   - mariadb
-        build: requirements/wordpress/
-        container_name: wordpress
-        image: wordpress
-        env_file:
-          - "./.env"
-        ports:
-          - "9000:9000"
-        volumes:
-          - website:/var/www/html
-        networks:
-          - inception
-        tty: true
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#                     NGNINX                          #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    nginx:
-        depends_on:
-          - wordpress
-        build: requirements/nginx/
-        container_name: nginx
-        image: nginx
-        ports:
-          - "443:443"
-        volumes:
-          - website:/var/www/html
-        networks:
-          - inception
-        tty: true
 
 volumes:
   website:
@@ -67,4 +18,59 @@ volumes:
       o: 'bind'
       type: 'none'
       device: '/home/idouidi/data/db'
+
+
+services:
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     MARIADB                         #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    mariadb:
+        build: requirements/mariadb/
+        image: mariadb
+        container_name: mariadb
+        env_file:
+          - "./.env"
+        ports:
+          - "3306:3306"
+        volumes:
+          - db:/var/lib/mysql
+        networks:
+          - Inception
+        restart: always
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     WORDPRESS                       #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    wordpress:
+        depends_on:
+          - mariadb
+        build: requirements/wordpress/
+        container_name: wordpress
+        image: wordpress
+        env_file:
+          - "./.env"
+        ports:
+          - "9000:9000"
+        volumes:
+          - website:/var/www/html
+        networks:
+          - Inception
+        restart: always
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                     NGNINX                          #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    nginx:
+        depends_on:
+          - wordpress
+        build: requirements/nginx/
+        container_name: nginx
+        image: nginx
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - website:/var/www/html
+        networks:
+          - Inception
+        restart: always
+
   

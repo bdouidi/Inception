@@ -1,7 +1,7 @@
 FROM    debian:buster
 
 RUN     apt-get -y update && apt-get -y upgrade \
-        && apt-get update && apt-get install -y  \
+        && apt-get install -y  \
         php7.3 \
         php7.3-fpm \
         php7.3-mysql \
@@ -35,7 +35,7 @@ COPY    ./config/www.conf    /etc/php/7.3/fpm/pool.d/www.conf
 
 EXPOSE  9000
 
-CMD    exec php-fpm7.3 -F
+CMD    exec php-fpm7.3 -F -R
 
 
 
