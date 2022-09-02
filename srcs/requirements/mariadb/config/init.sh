@@ -1,29 +1,28 @@
 #!/bin/bash
 
-# set -euo pipefail #voir help set
-set -euo pipefail
-
-dataDB=/var/lib/mysql/init_dataDB.sql
-
-if [ ! -f $dataDB ];
-then
-	cat > $dataDB <<EOF
-	CREATE DATABASE  IF NOT EXISTS $MYSQL_DATABASE_NAME;
-	CREATE USER  IF NOT EXISTS '$WP_ADMIN_USER'@'%' IDENTIFIED by '$WP_ADMIN_PWD';
-	GRANT ALL PRIVILEGES ON $MYSQL_DATABASE_NAME.* TO '$WP_ADMIN_USER'@'%';
-	FLUSH PRIVILEGES;
+cat <<-EOF > /etc/mysql/my.cnf
+	[mysqld]
+	user = root
+	port = 3306
+	datadir = /var/lib/mysql
+	bind-address = 0.0.0.0
+	skip-bind-address
+	skip-networking = false
+	pid-file = /run/mysqld/mysqld.pid
+	socket = /run/mysqld/mysqld.sock
 EOF
 
-    for i in {30..0}; do
-        if mysql --user=root --password=$MYSQL_ROOT_PWD --database=mysql <<<'SELECT 1' &> /dev/null; then
-            break
-        fi 
-        sleep 1
-    done
-    if [ "$i" = 0 ]; then
-        exit 1
-    fi
-    mysql --user=root --password=$MYSQL_ROOT_PWD < $dataDB && killall mysqld
-fi
+if [ ! -d $DATADIR/mysql ]; 
+then
+	echo "\n[i]Initialization of database\n"
+	mysql_install_db --datadir=$DATADIR   > /dev/null
 
-exec "$@"
+    mysql -u  root  --skip-password <<- EOF 
+    		
+		ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
+		CREATE DATABASE  IF NOT EXISTS $MARIADB_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;
+		CREATE USER  IF NOT EXISTS '$WP_ADMIN_USER'@'%' IDENTIFIED by '$WP_ADMIN_PWD';
+		GRANT ALL PRIVILEGES ON $MARIADB_DATABASE.* TO '$WP_ADMIN_USER'@'%';
+		FLUSH PRIVILEGES;
+	EOF
+exec mysqld -u root

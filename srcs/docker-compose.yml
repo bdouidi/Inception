@@ -1,6 +1,5 @@
 version: '3'
 
-
 networks:
   Inception:
     driver: bridge
@@ -19,30 +18,29 @@ volumes:
       type: 'none'
       device: '/home/idouidi/data/db'
 
-
 services:
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     MARIADB                         #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    mariadb:
-        build: requirements/mariadb/
-        image: mariadb
-        container_name: mariadb
-        env_file:
-          - "./.env"
-        ports:
-          - "3306:3306"
-        volumes:
-          - db:/var/lib/mysql
-        networks:
-          - Inception
-        restart: always
+    # mariadb:
+    #     build: requirements/mariadb/
+    #     image: mariadb
+    #     container_name: mariadb
+    #     env_file:
+    #       - "./.env"
+    #     ports:
+    #       - "3306:3306"
+    #     volumes:
+    #       - db:/var/lib/mysql
+    #     networks:
+    #       - Inception
+        # restart: always
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     WORDPRESS                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     wordpress:
-        depends_on:
-          - mariadb
+        # depends_on:
+        #   - mariadb
         build: requirements/wordpress/
         container_name: wordpress
         image: wordpress
@@ -72,5 +70,3 @@ services:
         networks:
           - Inception
         restart: always
-
-  
