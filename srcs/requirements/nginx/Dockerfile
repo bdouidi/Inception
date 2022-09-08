@@ -1,6 +1,13 @@
 FROM    debian:buster
 
-RUN     apt-get update && apt-get install -y systemd nginx vim openssl
+
+RUN     apt-get -y update \
+        && apt-get -y upgrade \
+        && apt-get install -y  \
+        systemd \
+        nginx \
+        openssl \
+        vim
 
 EXPOSE  80 443
 

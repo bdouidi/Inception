@@ -1,21 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: idouidi <idouidi@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/15 13:43:24 by idouidi           #+#    #+#              #
-#    Updated: 2022/08/31 17:40:09 by idouidi          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-
 all: up
 
 up:
-		 sudo docker-compose -f srcs/docker-compose.yml build 
-		 sudo docker-compose -f srcs/docker-compose.yml up --force-recreate #-d --force-recreate
+		 sudo docker-compose -f srcs/docker-compose.yml build --no-cache
+		 sudo docker-compose -f srcs/docker-compose.yml up #--force-recreate #-d --force-recreate
 
 
 down:

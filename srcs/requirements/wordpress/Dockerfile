@@ -1,6 +1,6 @@
 FROM    debian:buster
 
-RUN     apt-get -y update && apt-get -y upgrade \
+RUN     apt-get -y update \
         && apt-get install -y  \
         php7.3 \
         php7.3-fpm \
@@ -21,12 +21,14 @@ RUN     wget https://fr.wordpress.org/latest-fr_FR.tar.gz
 RUN     tar -zxf latest-fr_FR.tar.gz
 RUN     rm latest-fr_FR.tar.gz
 
+RUN     rm /var/www/html/wordpress/wp-config-sample.php
+COPY    ./config/wp-config.php /var/www/html/wordpress/wp-config-sample.php
+
 RUN     chown -R www-data:www-data /var/www/*
 RUN     chmod -R 755 /var/www/*
 
 
-RUN     rm /var/www/html/wordpress/wp-config-sample.php
-COPY    ./config/wp-config.php /var/www/html/wordpress/wp-config.php
+# RUN     chmod 777 ./wordpress/wp-config-sample.php
 
 
 COPY    ./config/info.php /usr/share/nginx/html/info.php
