@@ -1,6 +1,7 @@
 FROM debian:buster
 
 RUN     apt-get -y update \
+        && apt-get -y upgrade \
         && apt-get install -y  \
         mariadb-server \
         mariadb-client 
@@ -8,6 +9,7 @@ RUN     apt-get -y update \
 EXPOSE 3306
 
 COPY  ./config/init.sh /tmp/init.sh
+COPY  ./config/init.sh /tmp/dump.sql
 
 RUN mkdir -p /run/mysqld /var/lib/mysql
 RUN chmod 777 /var/lib/mysql

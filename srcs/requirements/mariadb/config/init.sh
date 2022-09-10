@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat <<EOF > /etc/mysql/my.cnf
+cat << EOF > /etc/mysql/my.cnf
 	[mysqld]
 	user = root
 	port = 3306
@@ -20,13 +20,15 @@ then
 
     mysql -u  root  --skip-password <<EOF 
     		
-		ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
+		 ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
 
-		CREATE DATABASE  IF NOT EXISTS $MARIADB_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;
-		CREATE USER  IF NOT EXISTS '$WP_ADMIN_USER'@'%' IDENTIFIED by '$WP_ADMIN_PWD';
-		GRANT ALL PRIVILEGES ON $MARIADB_DATABASE.* TO '$WP_ADMIN_USER'@'%';
+		CREATE DATABASE  IF NOT EXISTS $DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
+		CREATE USER  IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED by '$DB_PASSWORD';
+		GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
 		FLUSH PRIVILEGES;
 EOF
+	mysqladmin -u root -p"$ROOT_PASSWORD" wordpress < /tmp/dump.sql
+	mysqladmin -u root -p"$ROOT_PASSWORD" shutdown
 else
 	echo "\n database ==> wordpress <== is already created"
 	sleep 2
