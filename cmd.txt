@@ -32,3 +32,11 @@
 # check les erreur du lancment du container     #
 ################################################# 
 # docker logs --tail=50 --follow --timestamps id_container
+
+mysql -u root << EOF
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'test';
+CREATE DATABASE  IF NOT EXISTS wordpress;
+CREATE USER  IF NOT EXISTS 'idouidi'@'localhost' IDENTIFIED by 'idouidi';
+GRANT ALL PRIVILEGES ON wordpress . * TO 'idouidi'@'localhost';
+FLUSH PRIVILEGES;
+EOF

@@ -2,21 +2,24 @@ all: up
 
 up:
 		sudo systemctl restart docker 
-		sudo docker-compose -f srcs/docker-compose.yml build --no-cache
-		sudo docker-compose -f srcs/docker-compose.yml up #--force-recreate #-d --force-recreate
+		sudo docker-compose -f srcs/docker-compose.yml build #--no-cache
+		sudo docker-compose -f srcs/docker-compose.yml up --force-recreate #-d --force-recreate
 
 
 down:
-		sudo docker-compose -f srcs/docker-compose.yml down -v
+		sudo docker-compose -f srcs/docker-compose.yml down 
 
 ps:		
 		sudo docker-compose -f srcs/docker-compose.yml ps -a
 		sudo docker ps -a
 
 clean:	down
-		sudo rm -rf /home/${USER}/data/db
-		sudo rm -rf /home/${USER}/data/wwebsite
 		sudo docker system prune
+		sudo docker volume rm srcs_db srcs_website
+
+		sudo rm -rf /home/${USER}/data/db
+		sudo rm -rf /home/${USER}/data/website
+		
 		mkdir -p /home/${USER}/data/db
 		mkdir -p /home/${USER}/data/website
 

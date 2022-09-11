@@ -20,19 +20,24 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv('DB_NAME' ));
+define( 'DB_NAME', 'wordpress');
+// define( 'DB_NAME', getenv('DB_NAME' ));
 
 /** MySQL database username */
-define( 'DB_USER', getenv('DB_USER' ));
+define( 'DB_USER', 'idouidi');
+// define( 'DB_USER', getenv('DB_USER' ));
 
 /** MySQL database password */
-define( 'DB_PASSWORD', getenv('DB_PASSWORD' ));
+define( 'DB_PASSWORD', 'idouidi');
+// define( 'DB_PASSWORD', getenv('DB_PASSWORD' ));
 
 /** MySQL hostname */
-define( 'DB_HOST', getenv('DB_HOST' ));
+define( 'DB_HOST', 'localhost');
+// define( 'DB_HOST', getenv('DB_HOST' ));
 
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', getenv('DB_CHARSET' ));
+define( 'DB_CHARSET', 'utf8');
+// define( 'DB_CHARSET', getenv('DB_CHARSET' ));
 
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
@@ -48,14 +53,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'w!w9U%d4mf9av cN3mq>9fU${&Q=43[kRjl[QeA.KRP]*f4?k29Yh4;2|fLYG7k#' );
-define( 'SECURE_AUTH_KEY',  'uYLS(jGeCp4?$v+*x]SgIfj20v1NvaXX(UV:O3Z8%sRdV*JFSwT{R8R*?Sxu1J_)' );
-define( 'LOGGED_IN_KEY',    '@%P@mzW{>]r.uWP38a`wyS|%Ga^*38C+%$C`kC+Nwigi7btH3x~OJsi}GtAa.N,+' );
-define( 'NONCE_KEY',        'n?ccxw)c62~n :(/|fBCjnhMhWaa!!7d{[u$3*9^Dp1URFgJso5DF(x[Wnfa$0^1' );
-define( 'AUTH_SALT',        '*Fa0vaKyhH[dY.O]H+[IOD:A[9a[!@gsCux}MR2cs{I[b}$w8ho`*T&ScGmhP[rP' );
-define( 'SECURE_AUTH_SALT', 'c|xTh_Qm{D/y]F#a5+K{6vlv|7qM]&O`CrlCR+w6m>B49`h=zyMa.GSI6cOfY}y)' );
-define( 'LOGGED_IN_SALT',   '8;]9O:No`:eDSqD>sL1JGE25X2RQ}&4L]M/XbiVJjG sxfy[ OhbS)mtzqynjj~s' );
-define( 'NONCE_SALT',       '-9I.A _j_l/5oOo2:) UC(h[!7}Yr?:,[v(B/Bc )aj[g-K-$=W{Md9&K9)]SXs~' );
+define( 'AUTH_KEY',         '' );
+define( 'SECURE_AUTH_KEY',  '' );
+define( 'LOGGED_IN_KEY',    '' );
+define( 'NONCE_KEY',        '' );
+define( 'AUTH_SALT',        '' );
+define( 'SECURE_AUTH_SALT', '' );
+define( 'LOGGED_IN_SALT',   '' );
+define( 'NONCE_SALT',       '' );
 
 /**#@-*/
 
@@ -94,3 +99,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+
+define( 'WP_ALLOW_REPAIR', true);

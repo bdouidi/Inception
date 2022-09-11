@@ -34,7 +34,7 @@ services:
           - db:/var/lib/mysql
         networks:
           - Inception
-        # restart: always
+        restart: always
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                     WORDPRESS                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
