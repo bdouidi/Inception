@@ -24,20 +24,20 @@ define( 'DB_NAME', 'wordpress');
 // define( 'DB_NAME', getenv('DB_NAME' ));
 
 /** MySQL database username */
-define( 'DB_USER', 'idouidi');
-// define( 'DB_USER', getenv('DB_USER' ));
+// ====> define( 'DB_USER', 'idouidi');
+define( 'DB_USER', getenv('DB_USER' ));
 
 /** MySQL database password */
-define( 'DB_PASSWORD', 'idouidi');
-// define( 'DB_PASSWORD', getenv('DB_PASSWORD' ));
+// ====> define( 'DB_PASSWORD', 'idouidi');
+define( 'DB_PASSWORD', getenv('DB_PASSWORD' ));
 
 /** MySQL hostname */
-define( 'DB_HOST', 'localhost');
-// define( 'DB_HOST', getenv('DB_HOST' ));
+// ====> define( 'DB_HOST', 'localhost');
+define( 'DB_HOST', getenv('DB_HOST' ));
 
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8');
-// define( 'DB_CHARSET', getenv('DB_CHARSET' ));
+// ====> define( 'DB_CHARSET', 'utf8');
+define( 'DB_CHARSET', getenv('DB_CHARSET' ));
 
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );

@@ -2,42 +2,35 @@ FROM    debian:buster
 
 RUN     apt-get -y update \
         && apt-get install -y  \
-        php7.3 \
-        php7.3-fpm \
-        php7.3-mysql \
-        php-common php7.3-cli \
+        php7.3-cli \
         php7.3-common \
-        php7.3-json \
-        php7.3-opcache \
-        php7.3-readline \
-        php-mbstring \
-        wget
+        php7.3-curl \
+        php7.3-mbstring \
+        php7.3-mysql \
+        php-fpm curl \
+        mariadb-client \
+        curl
 
+EXPOSE  9000
 
+COPY    ./config/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+COPY    ./config/www.conf    /etc/php/7.3/fpm/pool.d/www.conf
 
-WORKDIR /var/www/html/
-
-RUN     wget https://fr.wordpress.org/latest-fr_FR.tar.gz
-RUN     tar -zxf latest-fr_FR.tar.gz
-RUN     rm latest-fr_FR.tar.gz
-
-RUN     rm /var/www/html/wordpress/wp-config-sample.php
-COPY    ./config/wp-config.php /var/www/html/wordpress/wp-config-sample.php
+RUN     mkdir -p /var/www/html/
 
 RUN     chown -R www-data:www-data /var/www/*
 RUN     chmod -R 755 /var/www/*
 
+WORKDIR /var/www/html/
+RUN     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN     chmod +x wp-cli.phar
+RUN     mv wp-cli.phar /usr/local/bin/wp
+RUN     wp --info
 
-# RUN     chmod 777 ./wordpress/wp-config-sample.php
+COPY    ./config/setup_wp.sh .
+# COPY    ./config/wp-config.php .
 
-
-COPY    ./config/info.php /usr/share/nginx/html/info.php
-COPY    ./config/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
-COPY    ./config/www.conf    /etc/php/7.3/fpm/pool.d/www.conf
-
-EXPOSE  9000
-
-CMD    exec php-fpm7.3 -F -R
+ENTRYPOINT ["bash", "setup_wp.sh"]
 
 
 
