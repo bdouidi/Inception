@@ -1,22 +1,44 @@
 #!/bin/sh
 
-if [ -f ./wordpress/wp-config.php ]
+wp core download --locale=fr_FR --allow-root
+
+chown -R www-data:www-data /var/www/*
+chmod -R 755 /var/www/*
+
+sleep 2
+
+if [ -f /var/www/html/wp-config.php ]
 then
-	echo "wp-config.php already exist"
+	echo "===> wp-config.php already exist <==="
+	sleep 2
 else
-    wget https://fr.wordpress.org/latest-fr_FR.tar.gz
-	tar -xzf latest-fr_FR.tar.gz
-	rm -rf latest-fr_FR.tar.gz
+echo "===> create wp-config.php <==== "
+sleep 2
 
+wp config create --dbname=$DB_NAME \
+                 --dbuser=$DB_USER \
+                 --dbpass=$DB_USER_PASSWORD \
+                 --dbhost=$DB_HOST \
+                 --dbcharset=$DB_CHARSET \
+                 --dbcollate="utf8_general_ci" \
+                 --allow-root
 
-	cd /var/www/html/wordpress
-	sed -i "s/database_name_here/$DB_NAME/g" wp-config-sample.php
-	sed -i "s/username_here/$DB_USER/g" wp-config-sample.php
-	sed -i "s/password_here/$DB_USER_PASSWORD/g" wp-config-sample.php
-	sed -i "s/localhost/$DB_HOST/g" wp-config-sample.php
-	# cp wp-config-sample.php wp-config.php
-    chown -R www-data:www-data /var/www/html/wordpress
-    chmod -R 755 /var/www/html/wordpress
+echo "===>  Install Wordpress <==== "
+sleep 2
+
+wp core install --url="idouidi.42.fr" \
+                --title=INCEPTION \
+                --admin_user=$DB_ADMIN \
+                --admin_password=$DB_ADMIN_PASSWORD \
+                --admin_email="idouidi@student.42.fr" \
+                --allow-root
+
+echo "===> create a user <==="
+sleep 2
+
+wp user create	$DB_USER  \
+				--role=author \
+				--user_pass=$DB_USER_PASSWORD \
+				--allow-root
 fi
-
-exec "$@"
+exec php-fpm7.3 -F -R

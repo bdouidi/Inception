@@ -1,24 +1,18 @@
 FROM debian:buster
 
-RUN     apt-get -y update \
-        && apt-get -y upgrade \
-        && apt-get install -y  \
-        mariadb-server \
-        mariadb-client 
+RUN apt-get update \
+        && apt-get -y install apt-utils mariadb-server mariadb-client \
+        && rm -rf /var/lib/mysql \
+        && mkdir -p /var/lib/mysql /run/mysqld \
+        && chown -R mysql:mysql /var/lib/mysql  /run/mysqld \
+        && chmod 777 /var/run/mysqld 
 
 EXPOSE 3306
 
-COPY  ./config/init.sh /tmp/init.sh
-COPY  ./config/wordpress.sql /tmp/wordpress.sql
-
-RUN mkdir -p /run/mysqld /var/lib/mysql
-
-RUN chmod 777 /var/lib/mysql
-RUN chmod 777 /run/mysqld
-
-RUN chown -R mysql:mysql /var/run/mysqld
-RUN chown -R mysql:mysql /var/lib/mysql
+COPY  ./config/init.sh .
+COPY  ./config/wordpress.sql .
 
 
-ENTRYPOINT ["bash", "/tmp/init.sh"]
+ENTRYPOINT ["bash", "./init.sh"]
+
 
