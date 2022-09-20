@@ -1,4 +1,3 @@
-
 FROM    debian:buster
 
 RUN     apt-get -y update \
@@ -24,9 +23,6 @@ RUN     chmod +x wp-cli.phar
 RUN     mv wp-cli.phar /usr/local/bin/wp
 RUN     wp --info
 COPY    ./config/setup_wp.sh .
-
-# COPY    ./config/wp-config.php  .
-# RUN    rm wp-config.php 
 
 ENTRYPOINT ["bash", "setup_wp.sh"]
 

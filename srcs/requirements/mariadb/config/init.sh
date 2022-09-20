@@ -13,23 +13,21 @@ socket = /run/mysqld/mysqld.sock
 EOF
 
 if [ -d /var/lib/mysql/mysql ]; then 
-	echo "===> $DB_NAME already exist !"
+	echo "===> $MYSQL_DB_NAME already exist !"
 else
-	echo "Create DATABASE $DB_NAME"
-	mysql_install_db --datadir=/var/lib/mysql  # > /dev/null
-
+	echo "Create DATABASE $MYSQL_DB_NAME"
+	mysql_install_db --datadir=/var/lib/mysql
 	mysqld_safe &
 	sleep 2
+
 	mysql -u  root  --skip-password << EOF 
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
-CREATE DATABASE  IF NOT EXISTS $DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER  IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED by '$DB_USER_PASSWORD';
-GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_DB_ROOT_PASSWORD}';
+CREATE DATABASE  IF NOT EXISTS $MYSQL_DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER  IF NOT EXISTS '$WP_USER'@'%' IDENTIFIED by '$WP_USER_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* TO '$WP_USER'@'%';
 FLUSH PRIVILEGES;
 EOF
-	mysql -u root -p"$ROOT_PASSWORD" wordpress < ./wordpress.sql
-	sleep 2
-	mysqladmin -uroot -p"$ROOT_PASSWORD" shutdown
+	mysqladmin -u root -p$MYSQL_DB_ROOT_PASSWORD shutdown
 	sleep 2
 fi
 
