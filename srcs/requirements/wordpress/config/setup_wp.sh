@@ -10,25 +10,31 @@ then
 	sleep 2
 else
 echo "===> create wp-config.php <==== "
-sleep 2
+sleep 5
 
-wp config create --dbname=$MYSQL_DB_NAME \
-                 --dbuser=$WP_USER \
-                 --dbpass=$WP_USER_PASSWORD \
-                 --dbhost=$MYSQL_DB_HOST \
-                 --dbcharset=$WP_CHARSET \
-                 --dbcollate="utf8_general_ci" \
-                 --allow-root
+wp core config  --dbname=$MYSQL_DB_NAME \
+                --dbuser=$WP_ADMIN \
+                --dbpass=$WP_ADMIN_PASSWORD \
+                --dbhost=$MYSQL_DB_HOST \
+                --dbcharset=$WP_CHARSET \
+                --dbprefix=wp_ \
+                --dbcollate="utf8_general_ci" \
+                --allow-root
 
 echo "===>  Install Wordpress <==== "
-sleep 2
+sleep 5
 
 wp core install --url="idouidi.42.fr" \
                 --title=INCEPTION \
-                --admin_user=$WP_ADMIN \
+                --admin_user=$WP_ADMIN\
                 --admin_password=$WP_ADMIN_PASSWORD \
                 --admin_email=$WP_ADMIN_EMAIL \
                 --allow-root
+echo "===> Create a user <==="
+sleep 5
+
+wp user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PASSWORD --allow-root
+
 fi
 chown -R www-data:www-data /var/www/*
 chmod -R 755 /var/www/*
